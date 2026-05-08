@@ -1,0 +1,228 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(100)
+  password  String   @db.VarChar(255)
+  role      String   @default("user") @db.VarChar(20)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  profile                UserProfile?
+  dailyProgress          DailyProgress[]
+  meals                  Meal[]
+  workoutSessions        WorkoutSession[]
+  foodPhotoAnalyses      FoodPhotoAnalysis[]
+  foodRecommendations    FoodRecommendation[]
+  workoutRecommendations WorkoutRecommendation[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id                 String   @id @default(uuid())
+  userId             String   @unique @map("user_id")
+  diseaseHistory     String?  @map("disease_history")
+  weight             Decimal  @db.Decimal(5, 2)
+  height             Decimal  @db.Decimal(5, 2)
+  age                Int
+  gender             String   @db.VarChar(20)
+  activityLevel      String   @map("activity_level") @db.VarChar(50)
+  goal               String   @db.VarChar(50)
+  bmr                Int?
+  dailyCalorieTarget Int?     @map("daily_calorie_target")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model DailyProgress {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  date             DateTime @db.Date
+  weight           Decimal? @db.Decimal(5, 2)
+  caloriesConsumed Int?     @map("calories_consumed")
+  caloriesBurned   Int?     @map("calories_burned")
+  netCalories      Int?     @map("net_calories")
+  waterIntake      Int?     @map("water_intake")
+  workoutDuration  Int?     @map("workout_duration")
+  sleepDuration    Int?     @map("sleep_duration")
+  mood             String?  @db.VarChar(20)
+  notes            String?
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+  @@map("daily_progress")
+}
+
+model Meal {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  date      DateTime @db.Date
+  mealType  String   @map("meal_type") @db.VarChar(20)
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mealFoods         MealFood[]
+  foodPhotoAnalyses FoodPhotoAnalysis[]
+
+  @@index([userId, date])
+  @@map("meals")
+}
+
+model Food {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(100)
+  calories    Int
+  protein     Decimal  @db.Decimal(5, 2)
+  carbs       Decimal  @db.Decimal(5, 2)
+  fat         Decimal  @db.Decimal(5, 2)
+  category    String   @db.VarChar(50)
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  mealFoods MealFood[]
+
+  @@map("foods")
+}
+
+model MealFood {
+  id        String   @id @default(uuid())
+  mealId    String   @map("meal_id")
+  foodId    String   @map("food_id")
+  quantity  Decimal  @db.Decimal(8, 2)
+  calories  Int
+  protein   Decimal? @db.Decimal(8, 2)
+  carbs     Decimal? @db.Decimal(8, 2)
+  fat       Decimal? @db.Decimal(8, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  meal Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  food Food @relation(fields: [foodId], references: [id], onDelete: Cascade)
+
+  @@index([mealId])
+  @@index([foodId])
+  @@map("meal_foods")
+}
+
+model FoodPhotoAnalysis {
+  id                String   @id @default(uuid())
+  userId            String   @map("user_id")
+  mealId            String?  @map("meal_id")
+  imageUrl          String   @map("image_url")
+  detectedFoods     Json?    @map("detected_foods")
+  estimatedCalories Int?     @map("estimated_calories")
+  estimatedProtein  Decimal? @map("estimated_protein") @db.Decimal(8, 2)
+  estimatedCarbs    Decimal? @map("estimated_carbs") @db.Decimal(8, 2)
+  estimatedFat      Decimal? @map("estimated_fat") @db.Decimal(8, 2)
+  confidenceScore   Decimal? @map("confidence_score") @db.Decimal(5, 2)
+  aiResponse        Json?    @map("ai_response")
+  status            String   @default("pending") @db.VarChar(20)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meal Meal? @relation(fields: [mealId], references: [id], onDelete: SetNull)
+
+  @@index([userId, status])
+  @@map("food_photo_analyses")
+}
+
+model WorkoutSession {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  date           DateTime @db.Date
+  duration       Int?
+  caloriesBurned Int?     @map("calories_burned")
+  type           String?  @db.VarChar(50)
+  notes          String?
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutExercises WorkoutExercise[]
+
+  @@index([userId, date])
+  @@map("workout_sessions")
+}
+
+model Exercise {
+  id             String   @id @default(uuid())
+  name           String   @db.VarChar(100)
+  type           String   @db.VarChar(50)
+  muscleGroup    String?  @map("muscle_group") @db.VarChar(100)
+  caloriesPerMin Decimal? @map("calories_per_min") @db.Decimal(5, 2)
+  difficulty     String?  @db.VarChar(20)
+  description    String?
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  workoutExercises WorkoutExercise[]
+
+  @@map("exercises")
+}
+
+model WorkoutExercise {
+  id               String   @id @default(uuid())
+  workoutSessionId String   @map("workout_session_id")
+  exerciseId       String   @map("exercise_id")
+  sets             Int?
+  reps             Int?
+  duration         Int?
+  caloriesBurned   Int?     @map("calories_burned")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  workoutSession WorkoutSession @relation(fields: [workoutSessionId], references: [id], onDelete: Cascade)
+  exercise       Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([workoutSessionId])
+  @@index([exerciseId])
+  @@map("workout_exercises")
+}
+
+model FoodRecommendation {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  date           DateTime @db.Date
+  calorieTarget  Int?     @map("calorie_target")
+  recommendation Json
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@map("food_recommendations")
+}
+
+model WorkoutRecommendation {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  date           DateTime @db.Date
+  calorieTarget  Int?     @map("calorie_target")
+  recommendation Json
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@map("workout_recommendations")
+}

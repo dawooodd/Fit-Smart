@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/dashboard/Sidebar';
-import TopHeader from '../components/dashboard/TopHeader';
+import Sidebar from '../components/Dashboard/Sidebar';
+import TopHeader from '../components/Dashboard/TopHeader';
 
 // Import Views
-import ViewRingkasan from '../components/dashboard/views/ViewRingkasan';
-import ViewRencanaMakan from '../components/dashboard/views/ViewRencanaMakan';
-import ViewLatihan from '../components/dashboard/views/ViewLatihan';
-import ViewPelacakTidur from '../components/dashboard/views/ViewPelacakTidur';
-import ViewMetrikTubuh from '../components/dashboard/views/ViewMetrikTubuh';
-import ViewPlaceholder from '../components/dashboard/views/ViewPlaceholder';
+import ViewRingkasan from '../components/Dashboard/views/ViewRingkasan';
+import ViewRencanaMakan from '../components/Dashboard/views/ViewRencanaMakan';
+import ViewLatihan from '../components/Dashboard/views/ViewLatihan';
+import ViewPelacakTidur from '../components/Dashboard/views/ViewPelacakTidur';
+import ViewMetrikTubuh from '../components/Dashboard/views/ViewMetrikTubuh';
+import ViewPlaceholder from '../components/Dashboard/views/ViewPlaceholder';
 
 export default function Dashboard() {
   const [activeMenu, setActiveMenu] = useState('Ringkasan');

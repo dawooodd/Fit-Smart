@@ -5,7 +5,7 @@ export default function ViewPelacakTidur() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      <h2 className="text-2xl font-bold text-gray-900">Analisis Tidur Terakhir</h2>
+      <h2 className="text-2xl font-bold text-(--text-main)">Analisis Tidur Terakhir</h2>
       
       <div className="bg-indigo-900 rounded-4xl p-8 md:p-10 text-white flex flex-col md:flex-row items-center gap-10 shadow-xl shadow-indigo-900/10">
         <div className="flex-1">
@@ -22,7 +22,7 @@ export default function ViewPelacakTidur() {
                 style={{ height: `${height}%` }}
               >
                 {/* Tooltip pada saat di hover */}
-                <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-indigo-900 text-xs font-bold px-2 py-1 rounded shadow-lg transition-opacity pointer-events-none">
+                <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-(--bg-card) text-indigo-900 text-xs font-bold px-2 py-1 rounded shadow-lg transition-opacity pointer-events-none">
                   {height}%
                 </div>
              </div>

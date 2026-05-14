@@ -10,13 +10,13 @@ export default function ViewLatihan() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Latihanmu</h2>
+      <h2 className="text-2xl font-bold text-(--text-main)] mb-6">Program Latihanmu</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {workoutPrograms.map((workout, idx) => (
           <div 
             key={idx} 
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group cursor-pointer hover:shadow-md transition-shadow"
+            className="bg-(--bg-card)] rounded-2xl border border-(--border-subtle)] shadow-sm overflow-hidden group cursor-pointer hover:shadow-md transition-shadow"
           >
             {/* Thumbnail Image Placeholder */}
             <div className={`h-40 ${workout.img} relative flex items-center justify-center`}>
@@ -27,10 +27,10 @@ export default function ViewLatihan() {
             
             {/* Workout Details */}
             <div className="p-5">
-              <h3 className="font-bold text-gray-900 text-lg mb-2">{workout.title}</h3>
-              <div className="flex gap-4 text-sm text-gray-500 font-medium">
+              <h3 className="font-bold text-(--text-main)] text-lg mb-2">{workout.title}</h3>
+              <div className="flex gap-4 text-sm text-(--text-muted)] font-medium">
                 <span className="flex items-center gap-1">
-                  <Clock size={16} className="text-gray-400" /> {workout.dur}
+                  <Clock size={16} className="text-(--text-muted)]" /> {workout.dur}
                 </span>
                 <span className="flex items-center gap-1">
                   <Flame size={16} className="text-orange-400" /> {workout.cal}

@@ -1,1 +1,44 @@
 @import "tailwindcss";
+
+/* --- TEMA TERANG (DEFAULT) --- */
+:root {
+  --bg-main: #FDFBF6;       /* Latar belakang utama (krem) */
+  --bg-card: #ffffff;       /* Latar belakang kartu/sidebar */
+  --bg-hover: #f3f4f6;      /* Latar belakang hover (gray-100) */
+  --bg-subtle: #f9fafb;     /* Latar belakang subtle (gray-50) */
+  --text-main: #1f2937;     /* Teks utama (gray-800) */
+  --text-muted: #6b7280;    /* Teks redup (gray-500) */
+  --text-secondary: #4b5563; /* Teks sekunder (gray-700) */
+  --border-subtle: #f3f4f6; /* Garis batas (gray-100) */
+  --border-main: #e5e7eb;   /* Garis batas utama (gray-200) */
+  --icon-bg: #dcfce7;       /* Background icon (green-100) */
+  --icon-text: #15803d;     /* Teks icon (green-700) */
+  --accent-primary: #16a34a; /* Aksen primary (green-600) */
+  --accent-secondary: #b91c1c; /* Aksen secondary (red-700) */
+  --accent-warm: #d97706;   /* Aksen warm (amber-600) */
+}
+
+/* --- TEMA GELAP (DARK MODE) --- */
+[data-theme='dark'] {
+  --bg-main: #030712;       /* Latar belakang utama (gray-950) */
+  --bg-card: #111827;       /* Latar belakang kartu (gray-900) */
+  --bg-hover: #1f2937;      /* Latar belakang hover (gray-800) */
+  --bg-subtle: #111827;     /* Latar belakang subtle (gray-900/50) */
+  --text-main: #f9fafb;     /* Teks utama (gray-50) */
+  --text-muted: #9ca3af;    /* Teks redup (gray-400) */
+  --text-secondary: #d1d5db; /* Teks sekunder (gray-200) */
+  --border-subtle: #1f2937; /* Garis batas (gray-800) */
+  --border-main: #374151;   /* Garis batas utama (gray-700) */
+  --icon-bg: rgba(20, 83, 45, 0.3); /* Background icon transparan (green-900/30) */
+  --icon-text: #4ade80;     /* Teks icon (green-400) */
+  --accent-primary: #22c55e; /* Aksen primary (green-500) */
+  --accent-secondary: #f87171; /* Aksen secondary (red-400) */
+  --accent-warm: #60a5fa;   /* Aksen warm (blue-400) */
+}
+
+/* Transisi global agar perubahan tema halus */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

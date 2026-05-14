@@ -12,8 +12,7 @@ import ViewPlaceholder from '../components/Dashboard/views/ViewPlaceholder';
 
 export default function Dashboard() {
   const [activeMenu, setActiveMenu] = useState('Ringkasan');
-
-  // Router internal untuk merender view berdasarkan activeMenu
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const renderContent = () => {
     switch(activeMenu) {
       case 'Ringkasan': return <ViewRingkasan />;
@@ -28,15 +27,39 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-[#FDFBF6] font-sans text-gray-800 overflow-hidden">
+    <div className="flex h-screen bg-(--bg-main) font-sans text-(--text-main) overflow-hidden transition-colors duration-300">
       
-      <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+      {/* Overlay Gelap untuk Mobile saat Sidebar Terbuka */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden animate-fadeIn"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
 
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative z-10">
+      {/* Sidebar - Menerima state untuk kontrol buka-tutup */}
+      <Sidebar 
+        activeMenu={activeMenu} 
+        setActiveMenu={(menu) => {
+          setActiveMenu(menu);
+          setIsSidebarOpen(false); // Tutup otomatis sidebar saat menu diklik (di HP)
+        }} 
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative z-10 w-full">
         
-        <TopHeader activeMenu={activeMenu} />
+        {/* Header - Menerima fungsi untuk toggle sidebar */}
+        <TopHeader 
+          activeMenu={activeMenu} 
+          toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+        />
 
-        <div className="flex-1 overflow-y-auto p-8 relative">
+        {/* Scrollable Area */}
+        {/* Ubah padding agar pas di HP (p-4) dan di Desktop (md:p-8) */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 relative bg-(--bg-main)">
           <div className="max-w-6xl mx-auto">
             {renderContent()}
           </div>

@@ -13,17 +13,17 @@ export default function ViewRencanaMakan() {
     <div className="space-y-6 animate-fadeIn">
       <div className="flex justify-between items-end mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Rencana Makan Hari Ini</h2>
-          <p className="text-gray-500 font-medium mt-1">Target Kalori: 2.100 Kkal</p>
+          <h2 className="text-2xl font-bold text-(--text-main)">Rencana Makan Hari Ini</h2>
+          <p className="text-(--text-muted) font-medium mt-1">Target Kalori: 2.100 Kkal</p>
         </div>
         <button className="bg-green-700 hover:bg-green-800 transition text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm">
           <Plus size={18}/> Tambah Makanan
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) shadow-sm overflow-hidden">
         {/* Table Header */}
-        <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex font-bold text-gray-500 text-xs uppercase tracking-wider">
+        <div className="p-4 border-b border-(--border-subtle)var(--bg-subtle)] flex font-bold text-(--text-muted) text-xs uppercase tracking-wider">
           <div className="w-1/4">Waktu</div>
           <div className="w-1/2">Menu Makanan</div>
           <div className="w-1/4 text-right">Kalori</div>
@@ -31,12 +31,12 @@ export default function ViewRencanaMakan() {
         
         {/* Table Body */}
         {mealPlan.map((item, idx) => (
-          <div key={idx} className="p-4 border-b border-gray-50 flex items-center hover:bg-gray-50 transition cursor-default">
+          <div key={idx} className="p-4 border-b border-(--border-subtle) flex items-center hover:bg-(--bg-hover) transition cursor-default">
             <div className="w-1/4">
               <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${item.color}`}>{item.time}</span>
             </div>
-            <div className="w-1/2 font-bold text-gray-800">{item.menu}</div>
-            <div className="w-1/4 text-right font-bold text-gray-900">{item.cal} Kkal</div>
+            <div className="w-1/2 font-bold text-(--text-secondary)"> {item.menu}</div>
+            <div className="w-1/4 text-right font-bold text-(--text-main)">{item.cal} Kkal</div>
           </div>
         ))}
       </div>

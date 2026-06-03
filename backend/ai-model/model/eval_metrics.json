@@ -1,0 +1,10 @@
+{
+  "val_accuracy": 0.87234,
+  "val_mae": 0.969267,
+  "val_loss": 0.662513,
+  "mvp_acc_pass": true,
+  "mvp_mae_pass": false,
+  "epochs_trained": 30,
+  "n_classes": 24,
+  "architecture": "MobileNetV2 + ChannelAttention (SE) + FocalLoss"
+}

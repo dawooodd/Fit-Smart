@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -23,6 +24,10 @@ model User {
   foodPhotoAnalyses      FoodPhotoAnalysis[]
   foodRecommendations    FoodRecommendation[]
   workoutRecommendations WorkoutRecommendation[]
+
+  dailyAiSummaries DailyAiSummary[]
+
+  aiPlanRecommendation AiPlanRecommendation?
 
   @@map("users")
 }
@@ -225,4 +230,33 @@ model WorkoutRecommendation {
 
   @@index([userId, date])
   @@map("workout_recommendations")
+}
+
+model DailyAiSummary {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  date      DateTime @db.Date
+  summary   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+  @@map("daily_ai_summaries")
+}
+
+model AiPlanRecommendation {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  foodPlan    String   @map("food_plan")
+  workoutPlan String   @map("workout_plan")
+  summary     String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_plan_recommendations")
 }

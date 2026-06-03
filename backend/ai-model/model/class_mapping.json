@@ -1,0 +1,225 @@
+{
+  "n_classes": 24,
+  "class_names": [
+    "Ayam Goreng",
+    "Ikan Goreng",
+    "Mie Goreng",
+    "alpukat",
+    "apel",
+    "bakso",
+    "bayam",
+    "bebek_betutu",
+    "gado_gado",
+    "gudeg",
+    "jeruk",
+    "kentang",
+    "mangga",
+    "nasi_goreng",
+    "pempek",
+    "pisang",
+    "rawon",
+    "rendang",
+    "sate",
+    "semangka",
+    "soto",
+    "tomat",
+    "ubi",
+    "wortel"
+  ],
+  "cls2idx": {
+    "Ayam Goreng": 0,
+    "Ikan Goreng": 1,
+    "Mie Goreng": 2,
+    "alpukat": 3,
+    "apel": 4,
+    "bakso": 5,
+    "bayam": 6,
+    "bebek_betutu": 7,
+    "gado_gado": 8,
+    "gudeg": 9,
+    "jeruk": 10,
+    "kentang": 11,
+    "mangga": 12,
+    "nasi_goreng": 13,
+    "pempek": 14,
+    "pisang": 15,
+    "rawon": 16,
+    "rendang": 17,
+    "sate": 18,
+    "semangka": 19,
+    "soto": 20,
+    "tomat": 21,
+    "ubi": 22,
+    "wortel": 23
+  },
+  "idx2cls": {
+    "0": "Ayam Goreng",
+    "1": "Ikan Goreng",
+    "2": "Mie Goreng",
+    "3": "alpukat",
+    "4": "apel",
+    "5": "bakso",
+    "6": "bayam",
+    "7": "bebek_betutu",
+    "8": "gado_gado",
+    "9": "gudeg",
+    "10": "jeruk",
+    "11": "kentang",
+    "12": "mangga",
+    "13": "nasi_goreng",
+    "14": "pempek",
+    "15": "pisang",
+    "16": "rawon",
+    "17": "rendang",
+    "18": "sate",
+    "19": "semangka",
+    "20": "soto",
+    "21": "tomat",
+    "22": "ubi",
+    "23": "wortel"
+  },
+  "nutrition": {
+    "Ayam Goreng": {
+      "calories": 302.0,
+      "protein": 18.2,
+      "fat": 25.0,
+      "carbs": 0.0
+    },
+    "Ikan Goreng": {
+      "calories": 380.0,
+      "protein": 33.6,
+      "fat": 27.5,
+      "carbs": 0.0
+    },
+    "Mie Goreng": {
+      "calories": 476.0,
+      "protein": 0.1,
+      "fat": 21.1,
+      "carbs": 71.3
+    },
+    "alpukat": {
+      "calories": 85.0,
+      "protein": 0.9,
+      "fat": 6.5,
+      "carbs": 7.7
+    },
+    "apel": {
+      "calories": 58.0,
+      "protein": 0.3,
+      "fat": 0.4,
+      "carbs": 14.9
+    },
+    "bakso": {
+      "calories": 76.0,
+      "protein": 4.1,
+      "fat": 2.5,
+      "carbs": 9.2
+    },
+    "bayam": {
+      "calories": 30.0,
+      "protein": 1.3,
+      "fat": 0.7,
+      "carbs": 5.8
+    },
+    "gado_gado": {
+      "calories": 137.0,
+      "protein": 6.1,
+      "fat": 3.2,
+      "carbs": 21.0
+    },
+    "gudeg": {
+      "calories": 53.0,
+      "protein": 1.6,
+      "fat": 1.6,
+      "carbs": 8.8
+    },
+    "jeruk": {
+      "calories": 48.0,
+      "protein": 0.6,
+      "fat": 0.2,
+      "carbs": 12.4
+    },
+    "kentang": {
+      "calories": 83.0,
+      "protein": 2.0,
+      "fat": 0.1,
+      "carbs": 19.1
+    },
+    "mangga": {
+      "calories": 63.0,
+      "protein": 2.4,
+      "fat": 0.4,
+      "carbs": 12.4
+    },
+    "nasi_goreng": {
+      "calories": 180.0,
+      "protein": 3.0,
+      "fat": 0.3,
+      "carbs": 39.8
+    },
+    "pempek": {
+      "calories": 162.0,
+      "protein": 4.9,
+      "fat": 3.0,
+      "carbs": 27.8
+    },
+    "pisang": {
+      "calories": 43.0,
+      "protein": 2.6,
+      "fat": 0.0,
+      "carbs": 11.6
+    },
+    "rawon": {
+      "calories": 60.0,
+      "protein": 5.4,
+      "fat": 2.5,
+      "carbs": 4.0
+    },
+    "rendang": {
+      "calories": 193.0,
+      "protein": 22.6,
+      "fat": 7.9,
+      "carbs": 7.8
+    },
+    "sate": {
+      "calories": 283.0,
+      "protein": 12.1,
+      "fat": 16.8,
+      "carbs": 20.9
+    },
+    "semangka": {
+      "calories": 28.0,
+      "protein": 0.5,
+      "fat": 0.2,
+      "carbs": 6.9
+    },
+    "soto": {
+      "calories": 42.0,
+      "protein": 3.9,
+      "fat": 1.7,
+      "carbs": 2.8
+    },
+    "tomat": {
+      "calories": 98.0,
+      "protein": 2.0,
+      "fat": 0.4,
+      "carbs": 24.5
+    },
+    "ubi": {
+      "calories": 110.0,
+      "protein": 1.4,
+      "fat": 1.1,
+      "carbs": 23.4
+    },
+    "wortel": {
+      "calories": 15.0,
+      "protein": 0.6,
+      "fat": 0.1,
+      "carbs": 3.1
+    }
+  },
+  "img_size": [
+    224,
+    224
+  ]
+}

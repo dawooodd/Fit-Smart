@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Bell, X, Clock, Sun, Moon, Menu } from 'lucide-react'; // Tambah Menu
+import { Search, Bell, X, Clock, Sun, Moon, Menu, LogOut } from 'lucide-react';
 import { menuItems, analyticsItems, unreadNotifs, notificationsList } from '../../data/dashboardData';
+import { useAuth } from '../../context/AuthContext';
+import { getInitials } from '../../lib/mappers';
 
-export default function TopHeader({ activeMenu, toggleSidebar }) {
+export default function TopHeader({ activeMenu, toggleSidebar, user }) {
+  const { logout } = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isNotifOpen, setIsNotifOpen] = useState(false);
@@ -107,9 +110,17 @@ export default function TopHeader({ activeMenu, toggleSidebar }) {
         </div>
 
         <div className="flex items-center gap-3 pl-4 md:pl-6 border-l border-(--border-main) cursor-pointer hover:opacity-80 transition-colors">
-          <div className="w-9 h-9 bg-green-800 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">AA</div>
-          <span className="font-medium text-sm text-(--text-main) hidden lg:block">Arrosyid</span>
+          <div className="w-9 h-9 bg-green-800 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">{getInitials(user?.name)}</div>
+          <span className="font-medium text-sm text-(--text-main) hidden lg:block">{user?.name || 'FitSmart'}</span>
         </div>
+
+        <button
+          onClick={logout}
+          className="p-2 rounded-full text-(--text-muted) hover:bg-(--bg-hover) hover:text-rose-500 transition-colors"
+          title="Keluar"
+        >
+          <LogOut size={18} />
+        </button>
       </div>
     </header>
   );

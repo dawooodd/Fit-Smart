@@ -1,10 +1,19 @@
 {
-  "name": "backend",
+  "name": "fit-smart-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend API for Fit-Smart",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "postinstall": "prisma generate",
+    "dev": "nodemon src/server.js",
+    "start": "prisma migrate deploy && node src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "prisma db seed",
+    "start:local": "node src/server.js",
+    "deploy": "prisma migrate deploy && node src/server.js",
+    "prisma:deploy": "prisma migrate deploy",
+    "ai:status": "node -e \"console.log(require('./src/services/aiInference.service').getModelStatus())\""
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -29,5 +38,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "engines": {
+    "node": "^20.19 || ^22.12 || >=24.0"
   }
 }

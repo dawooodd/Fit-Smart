@@ -67,14 +67,7 @@ export default function Sidebar({ activeMenu, setActiveMenu, isOpen, setIsOpen }
           </ul>
         </div>
 
-        {/* Kartu Kesehatan Jantung */}
-        <div className="mx-2 mt-4 bg-linear-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/10 p-5 rounded-2xl border border-green-100 dark:border-green-900/30 text-center shadow-sm transition-colors">
-          <div className="bg-(--bg-card) w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm text-rose-500 transition-colors">
-            <Heart className="fill-rose-500" size={24} />
-          </div>
-          <h4 className="text-sm font-semibold text-(--text-main) mb-1">Kesehatan Jantung</h4>
-          <p className="text-xs text-green-700 dark:text-green-400 font-bold bg-green-200/50 dark:bg-green-900/50 inline-block px-3 py-1 rounded-full">Sangat Baik</p>
-        </div>
+      
         
       </div>
     </aside>

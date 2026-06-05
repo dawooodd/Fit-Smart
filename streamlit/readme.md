@@ -20,7 +20,29 @@ Dashboard ini dirancang dengan prinsip **Data Storytelling**, di mana setiap vis
 
 ---
 
-## 📂 Struktur Folder
+## � Akses Dashboard Streamlit
+
+1. Masuk ke folder `streamlit/`:
+
+   ```bash
+   cd streamlit
+   ```
+
+2. Jalankan Streamlit:
+
+   ```bash
+   streamlit run app.py
+   ```
+
+3. Buka URL berikut di browser:
+
+   [http://localhost:8501](http://localhost:8501)
+
+> Jika port default sudah digunakan, Streamlit akan menampilkan alamat alternatif di terminal.
+
+---
+
+## �📂 Struktur Folder
 
 ```text
 streamlit/

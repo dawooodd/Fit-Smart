@@ -4,8 +4,8 @@
 ---
 
 ## 👤 Informasi Proyek
-* **Disusun Oleh:** Muchammad Nasich
-* **Tanggal:** Juni 2026
+* **Disusun Oleh:** tim data science
+* **Tanggal:** 5 Juni 2026
 * **Tech Stack:** `Python`, `Pandas`, `Matplotlib`, `Seaborn`, `SciPy`, `Statsmodels (ARIMA)`, `Streamlit`, `TheFuzz`
 
 ---

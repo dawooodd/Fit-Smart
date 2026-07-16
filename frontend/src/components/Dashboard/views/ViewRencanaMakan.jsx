@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Apple, Camera, Trash2 } from 'lucide-react';
+import { Apple, Trash2 } from 'lucide-react';
 import { api } from '../../../lib/api';
 
 const today = new Date().toISOString().slice(0, 10);
@@ -52,7 +52,7 @@ function safeConfidence(value) {
 }
 
 export default function ViewRencanaMakan({ profile }) {
-  const [foods] = useState(defaultFoods);
+  const [foods, setFoods] = useState(defaultFoods);
   const [meals, setMeals] = useState([]);
   const [msg, setMsg] = useState('');
 
@@ -244,7 +244,7 @@ export default function ViewRencanaMakan({ profile }) {
   }
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6 animate-fadeIn max-w-5xl mx-auto">
       {msg && (
         <div className="bg-green-50 text-green-700 border border-green-100 rounded-2xl p-4 font-medium">
           {msg}
@@ -286,10 +286,10 @@ export default function ViewRencanaMakan({ profile }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
         <form
           onSubmit={addMeal}
-          className="bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 space-y-4 shadow-sm"
+          className="bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 space-y-4 shadow-sm lg:col-span-3 flex flex-col"
         >
           <h2 className="text-xl font-bold text-(--text-main) flex gap-2 items-center">
             <Apple size={20} />
@@ -404,93 +404,84 @@ export default function ViewRencanaMakan({ profile }) {
           </button>
         </form>
 
-        <form
-          onSubmit={detectFood}
-          className="bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 space-y-4 shadow-sm"
-        >
-          <h2 className="text-xl font-bold text-(--text-main) flex gap-2 items-center">
-            <Camera size={20} />
-            Deteksi Foto Makanan AI
-          </h2>
-
-          <label className="block rounded-3xl border-2 border-dashed border-(--border-subtle) p-6 text-center cursor-pointer bg-(--bg-subtle)">
-            {preview ? (
-              <img
-                src={preview}
-                className="max-h-56 mx-auto rounded-2xl object-cover"
-                alt="Preview makanan"
-              />
-            ) : (
-              <span className="text-(--text-muted)">
-                Klik untuk upload foto makanan
-              </span>
-            )}
-
-            <input
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                setPhoto(file || null);
-                setPreview(file ? URL.createObjectURL(file) : '');
-                setAnalysis(null);
-              }}
-            />
-          </label>
-
-          <button
-            disabled={isDetecting}
-            className="bg-green-700 disabled:bg-slate-500 text-white rounded-xl px-5 py-3 font-bold"
-          >
-            {isDetecting ? 'Mendeteksi...' : 'Detect Food'}
-          </button>
-
-          {analysis && (
-            <div className="rounded-2xl bg-(--bg-subtle) p-4 text-sm text-(--text-main) space-y-3">
-              <div>
-                <p className="text-(--text-muted)">Hasil AI</p>
-                <b className="text-lg">
-                  {String(analysis.predicted_class || 'Unknown')}
-                </b>
-                <p className="text-green-500 font-medium">
-                  Confidence {analysis.confidence_percent || 0}%
-                </p>
-              </div>
-
-              {Array.isArray(analysis.top_predictions) &&
-                analysis.top_predictions.map((item, index) => {
-                  const confidenceValue = safeConfidence(item.confidence);
-
-                  return (
-                    <div
-                      key={`${item.label}-${index}`}
-                      className="rounded-xl border border-(--border-subtle) p-3"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">
-                          {String(item.label || 'Unknown')}
-                        </span>
-
-                        <span className="text-green-500 font-bold">
-                          {Math.round(confidenceValue * 100)}%
-                        </span>
-                      </div>
-
-                      {item.nutrition && (
-                        <div className="grid grid-cols-2 gap-2 mt-2 text-xs text-(--text-muted)">
-                          <div>Kalori: {item.nutrition.calories || 0}</div>
-                          <div>Protein: {item.nutrition.protein || 0}g</div>
-                          <div>Carbs: {item.nutrition.carbs || 0}g</div>
-                          <div>Fat: {item.nutrition.fat || 0}g</div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+        <div className="bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 space-y-4 shadow-sm lg:col-span-2 flex flex-col justify-between">
+          <div className="space-y-4 flex-1 flex flex-col">
+            <h2 className="text-xl font-bold text-(--text-main) flex gap-2 items-center">
+              <span>💡</span> Rekomendasi Pintar (KNN)
+            </h2>
+            
+            <div className="text-sm text-(--text-muted)">
+              <span>Rekomendasi menu berdasarkan sisa defisit kalori Anda:</span>
             </div>
-          )}
-        </form>
+
+            {(() => {
+              const knnSuggestion = {
+                name: "Dada Ayam Bakar + Brokoli",
+                category: 'protein',
+                calories: 350,
+                protein: 35,
+                carbs: 10,
+                fat: 5
+              };
+
+              const handleAddKnnToForm = () => {
+                // Tambahkan menu ke list options jika belum terdaftar
+                const exists = foods.some(f => f.name.toLowerCase() === knnSuggestion.name.toLowerCase());
+                if (!exists) {
+                  setFoods(prev => [knnSuggestion, ...prev]);
+                }
+                // Isi form input di sebelah kiri
+                setMealForm(prev => ({
+                  ...prev,
+                  foodName: knnSuggestion.name,
+                  quantity: 1,
+                  notes: 'Rekomendasi Pintar (KNN)',
+                }));
+                setMsg(`Menu "${knnSuggestion.name}" dimasukkan ke form input. Silakan klik "Simpan Meal" untuk mencatat.`);
+              };
+
+              return (
+                <div className="flex-1 flex flex-col justify-between">
+                  <div className="bg-(--bg-subtle) rounded-2xl p-4 border border-(--border-subtle) space-y-4 mt-2">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-extrabold text-(--text-main) text-lg capitalize">
+                          {knnSuggestion.name}
+                        </h4>
+                        <p className="text-xs text-(--text-muted) capitalize">
+                          Kategori: {knnSuggestion.category}
+                        </p>
+                      </div>
+                      <span className="bg-green-700/10 text-green-700 dark:bg-green-500/20 dark:text-green-400 px-3 py-1 rounded-full text-sm font-black">
+                        {knnSuggestion.calories} Kkal
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2 flex-wrap">
+                      <span className="bg-blue-500/10 text-blue-500 dark:bg-blue-500/20 px-2.5 py-1 rounded-lg text-xs font-semibold">
+                        Protein: {knnSuggestion.protein}g
+                      </span>
+                      <span className="bg-yellow-500/10 text-yellow-500 dark:bg-yellow-500/20 px-2.5 py-1 rounded-lg text-xs font-semibold">
+                        Karbo: {knnSuggestion.carbs}g
+                      </span>
+                      <span className="bg-pink-500/10 text-pink-500 dark:bg-pink-500/20 px-2.5 py-1 rounded-lg text-xs font-semibold">
+                        Lemak: {knnSuggestion.fat}g
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAddKnnToForm}
+                    className="w-full bg-green-700 hover:bg-green-800 text-white rounded-xl px-5 py-3 font-bold transition flex items-center justify-center gap-2 mt-6"
+                  >
+                    <span>➕</span> Tambahkan ke Input Form
+                  </button>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
       </div>
 
       <div className="bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 shadow-sm">

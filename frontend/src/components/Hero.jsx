@@ -3,9 +3,17 @@ import React from 'react';
 import { ArrowRight, CheckCircle2, Activity } from 'lucide-react';
 import heroFitSmart from '../assets/hero-fitsmart.jpg'; 
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Hero() {
   const navigate = useNavigate();
+  const { loginAsDemo } = useAuth();
+
+  const handleDemoClick = () => {
+    loginAsDemo();
+    navigate('/dashboard');
+  };
+
   return (
     <section className="max-w-7xl mx-auto px-8 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
       <div className="space-y-6">
@@ -20,7 +28,7 @@ export default function Hero() {
           <button className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-full font-medium flex items-center gap-2 transition shadow-lg shadow-green-700/20" onClick={() => navigate('/onboarding')}>
             Daftar Sekarang <ArrowRight className="w-4 h-4" />
           </button>
-          <button className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 px-8 py-3 rounded-full font-medium transition">
+          <button className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-800 px-8 py-3 rounded-full font-medium transition" onClick={handleDemoClick}>
             Lihat Demo
           </button>
         </div>

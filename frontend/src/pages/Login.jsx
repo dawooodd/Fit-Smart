@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Heart, ArrowRight, AlertCircle } from 'lucide-react';
+import { Heart, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
@@ -31,12 +31,21 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#FFFDF0] to-[#FDEEB7] flex items-center justify-center font-sans p-6">
+    <div className="min-h-screen bg-linear-to-br from-[#FFFDF0] to-[#FDEEB7] flex items-center justify-center font-sans p-6 relative">
+      {/* Back to home */}
+      <Link
+        to="/"
+        className="absolute top-6 left-6 flex items-center gap-2 text-gray-500 hover:text-green-700 font-medium text-sm transition-colors z-10"
+      >
+        <ArrowLeft size={16} />
+        Kembali ke Beranda
+      </Link>
+
       <div className="bg-white w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl shadow-amber-900/10">
         <div className="flex flex-col items-center mb-10 text-center">
-          <div className="bg-green-100 p-3 rounded-2xl mb-4">
+          <Link to="/" className="bg-green-100 p-3 rounded-2xl mb-4 hover:bg-green-200 transition-colors">
             <Heart className="fill-green-600 text-green-600" size={32} />
-          </div>
+          </Link>
           <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Selamat Datang</h1>
           <p className="text-gray-500 text-sm">Masuk untuk melihat progres latihan dan nutrisi harianmu.</p>
         </div>

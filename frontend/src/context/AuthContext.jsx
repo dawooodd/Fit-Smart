@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { api, clearSession, getStoredUser, getToken, saveSession } from '../lib/api';
 
+const DEMO_TOKEN = 'demo_mode_token';
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -14,6 +16,12 @@ export function AuthProvider({ children }) {
 
     async function bootstrap() {
       if (!token) {
+        setIsBootstrapping(false);
+        return;
+      }
+
+      // Skip backend verification for demo sessions
+      if (token === DEMO_TOKEN) {
         setIsBootstrapping(false);
         return;
       }
@@ -48,21 +56,37 @@ export function AuthProvider({ children }) {
     return result;
   };
 
+  const loginAsDemo = () => {
+    const demoUser = {
+      _id: 'demo_user',
+      name: 'Pengguna Demo',
+      email: 'demo@fitsmart.app',
+      isDemo: true,
+    };
+    saveSession({ token: DEMO_TOKEN, user: demoUser });
+    setToken(DEMO_TOKEN);
+    setUser(demoUser);
+  };
+
   const logout = () => {
     clearSession();
     setToken(null);
     setUser(null);
   };
 
+  const isDemo = Boolean(user?.isDemo);
+
   const value = useMemo(() => ({
     token,
     user,
     isAuthenticated: Boolean(token),
     isBootstrapping,
+    isDemo,
     login,
+    loginAsDemo,
     logout,
     setUser,
-  }), [token, user, isBootstrapping]);
+  }), [token, user, isBootstrapping, isDemo]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

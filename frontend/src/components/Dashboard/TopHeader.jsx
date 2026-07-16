@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Bell, X, Clock, Sun, Moon, Menu, LogOut } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, Bell, X, Clock, Sun, Moon, Menu, LogOut, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { menuItems, analyticsItems, unreadNotifs, notificationsList } from '../../data/dashboardData';
 import { useAuth } from '../../context/AuthContext';
 import { getInitials } from '../../lib/mappers';
 
 export default function TopHeader({ activeMenu, toggleSidebar, user }) {
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isNotifOpen, setIsNotifOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const profileRef = useRef(null);
+  const notifRef = useRef(null);
 
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -28,6 +34,20 @@ export default function TopHeader({ activeMenu, toggleSidebar, user }) {
       localStorage.setItem('theme', 'light');
     }
   }, [isDark]);
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsProfileOpen(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setIsNotifOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const activeIcon = [...menuItems, ...analyticsItems].find(i => i.id === activeMenu)?.icon;
 
@@ -73,9 +93,9 @@ export default function TopHeader({ activeMenu, toggleSidebar, user }) {
           </button>
         </div>
 
-        <div className="relative">
+        <div className="relative" ref={notifRef}>
           <button 
-            onClick={() => setIsNotifOpen(!isNotifOpen)}
+            onClick={() => { setIsNotifOpen(!isNotifOpen); setIsProfileOpen(false); }}
             className={`p-2 rounded-full transition-colors relative ${isNotifOpen ? 'bg-green-700/20 text-green-700 dark:text-green-400' : 'text-(--text-muted) hover:bg-(--bg-hover)'}`}
           >
             <Bell size={20} />
@@ -109,18 +129,48 @@ export default function TopHeader({ activeMenu, toggleSidebar, user }) {
           )}
         </div>
 
-        <div className="flex items-center gap-3 pl-4 md:pl-6 border-l border-(--border-main) cursor-pointer hover:opacity-80 transition-colors">
-          <div className="w-9 h-9 bg-green-800 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">{getInitials(user?.name)}</div>
-          <span className="font-medium text-sm text-(--text-main) hidden lg:block">{user?.name || 'FitSmart'}</span>
-        </div>
+        {/* ── Profile dropdown ── */}
+        <div className="relative pl-4 md:pl-6 border-l border-(--border-main)" ref={profileRef}>
+          <button
+            onClick={() => { setIsProfileOpen(!isProfileOpen); setIsNotifOpen(false); }}
+            className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+          >
+            <div className="w-9 h-9 bg-green-800 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">
+              {getInitials(user?.name)}
+            </div>
+            <span className="font-medium text-sm text-(--text-main) hidden lg:block">{user?.name || 'FitSmart'}</span>
+            <ChevronDown
+              size={16}
+              className={`text-(--text-muted) hidden lg:block transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
 
-        <button
-          onClick={logout}
-          className="p-2 rounded-full text-(--text-muted) hover:bg-(--bg-hover) hover:text-rose-500 transition-colors"
-          title="Keluar"
-        >
-          <LogOut size={18} />
-        </button>
+          {isProfileOpen && (
+            <div className="absolute top-full right-0 mt-3 w-64 bg-(--bg-card) border border-(--border-subtle) shadow-2xl rounded-2xl overflow-hidden z-50 animate-fadeIn">
+              {/* user info */}
+              <div className="px-4 py-4 border-b border-(--border-subtle) bg-(--bg-subtle)">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-800 text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-md">
+                    {getInitials(user?.name)}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-bold text-sm text-(--text-main) truncate">{user?.name || 'FitSmart User'}</p>
+                    <p className="text-xs text-(--text-muted) truncate">{user?.email || '–'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* logout */}
+              <button
+                onClick={() => { setIsProfileOpen(false); logout(); navigate('/'); }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-(--text-muted) hover:bg-rose-500/10 hover:text-rose-500 transition-colors"
+              >
+                <LogOut size={16} />
+                Keluar
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

@@ -14,7 +14,7 @@ import ViewTarget from '../components/Dashboard/views/ViewTarget';
 import ViewPhotoAI from '../components/Dashboard/views/ViewPhotoAI';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, isDemo } = useAuth();
   const [activeMenu, setActiveMenu] = useState('Ringkasan');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -25,6 +25,27 @@ export default function Dashboard() {
 
   useEffect(() => {
     let isMounted = true;
+
+    // Demo mode: skip all API calls, use mock data
+    if (isDemo) {
+      setProfile({
+        name: 'Pengguna Demo',
+        age: 25,
+        gender: 'Laki-laki',
+        height: 170,
+        weight: 70,
+        activityLevel: 'moderate',
+        goal: 'maintain',
+        targetCalories: 2000,
+        targetProtein: 120,
+        targetCarbs: 250,
+        targetFat: 65,
+      });
+      setTodayProgress({ calories: 0, protein: 0, carbs: 0, fat: 0 });
+      setProgressHistory([]);
+      setIsLoading(false);
+      return;
+    }
 
     async function loadDashboardData() {
       try {
@@ -54,7 +75,7 @@ export default function Dashboard() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [isDemo]);
 
   const dashboardData = useMemo(() => ({
     user,

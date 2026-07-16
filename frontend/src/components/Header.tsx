@@ -1,11 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 export default function Header() {
   const navigate = useNavigate();
   return (
     <header className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-      <div className="text-2xl font-bold text-green-800 tracking-tight">FitSmart</div>
+      <Link to="/" className="text-2xl font-bold text-green-800 tracking-tight hover:text-green-600 transition-colors">FitSmart</Link>
       <nav className="hidden md:flex space-x-8 font-medium text-gray-600">
         <a href="#fitur" className="hover:text-green-700 transition">Fitur</a>
         <a href="#cara-kerja" className="hover:text-green-700 transition">Cara Kerja</a>

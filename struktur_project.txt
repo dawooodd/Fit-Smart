@@ -1,0 +1,240 @@
+Need to install the following packages:
+tree-cli@0.6.7
+Ok to proceed? (y) 
+C:\Users\mucha\Fit-Smart
+├── $null
+├── AI_MODEL_FIX_NOTES.md
+├── backend
+|  ├── ai-model
+|  |  ├── FitSmart_AI_Model.ipynb
+|  |  ├── FitSmart_AI_Modelsold.ipynb
+|  |  ├── inference.py
+|  |  ├── model
+|  |  |  ├── class_mapping.json
+|  |  |  ├── eval_metrics.json
+|  |  |  ├── FitSmart_AI.ipynb
+|  |  |  ├── fitsmart_model.keras
+|  |  |  └── README.md
+|  |  ├── README.md
+|  |  └── requirements.txt
+|  ├── AI_MODEL_DEPLOY.md
+|  ├── ERD.png
+|  ├── package-lock.json
+|  ├── package.json
+|  ├── prisma
+|  |  ├── migrations
+|  |  |  ├── 20260429075842_init_fit_smart
+|  |  |  ├── 20260521113627_add_daily_ai_summary
+|  |  |  ├── 20260523111756_add_ai_plan_recommendation
+|  |  |  └── migration_lock.toml
+|  |  ├── schema.prisma
+|  |  └── seed.js
+|  ├── prisma.config.ts
+|  ├── README.md
+|  ├── src
+|  |  ├── app.js
+|  |  ├── config
+|  |  |  └── prisma.js
+|  |  ├── controllers
+|  |  |  ├── auth.controller.js
+|  |  |  ├── food.controller.js
+|  |  |  ├── meal.controller.js
+|  |  |  ├── photo.controller.js
+|  |  |  ├── profile.controller.js
+|  |  |  ├── progress.controller.js
+|  |  |  ├── recommendation.controller.js
+|  |  |  └── workout.controller.js
+|  |  ├── middlewares
+|  |  |  └── auth.middleware.js
+|  |  ├── routes
+|  |  |  ├── ai-plan.routes.js
+|  |  |  ├── ai-summary.routes.js
+|  |  |  ├── auth.routes.js
+|  |  |  ├── food.routes.js
+|  |  |  ├── meal.routes.js
+|  |  |  ├── mealRoutes.js
+|  |  |  ├── photo.routes.js
+|  |  |  ├── profile.routes.js
+|  |  |  ├── progress.routes.js
+|  |  |  ├── recommendation.routes.js
+|  |  |  └── workout.routes.js
+|  |  ├── server.js
+|  |  ├── services
+|  |  |  ├── aiInference.service.js
+|  |  |  ├── auth.service.js
+|  |  |  ├── food.service.js
+|  |  |  ├── meal.service.js
+|  |  |  ├── photo.service.js
+|  |  |  ├── profile.service.js
+|  |  |  ├── progress.service.js
+|  |  |  ├── recommendation.service.js
+|  |  |  └── workout.service.js
+|  |  ├── utils
+|  |  |  └── date.js
+|  |  └── validations
+|  |     ├── auth.validation.js
+|  |     ├── common.validation.js
+|  |     ├── food.validation.js
+|  |     ├── meal.validation.js
+|  |     ├── photo.validation.js
+|  |     ├── profile.validation.js
+|  |     ├── progress.validation.js
+|  |     ├── recommendation.validation.js
+|  |     └── workout.validation.js
+|  └── uploads
+|     ├── 1779374487221-pic_304.jpg
+|     ├── 1779374699904-pic_240.jpg
+|     ├── 1779375178265-pic_194.jpg
+|     ├── 1779375265380-pic_060.jpg
+|     ├── 1779375281944-pic_327.jpg
+|     ├── 1779511555375-bebek_betutu_169.jpg
+|     ├── 1779511574112-bebek_betutu_247.jpg
+|     ├── 1779511591266-bebek_betutu_363.jpg
+|     ├── 1779511706321-rawon_380.jpg
+|     ├── 1779511728886-pempek_016.jpg
+|     ├── 1779511879814-pempek_201.jpg
+|     ├── 1779511896899-pempek_201.jpg
+|     ├── 1779512038258-pic_242.jpg
+|     ├── 1779544243663-pic_327.jpg
+|     ├── 1779617448559-pic_327.jpg
+|     ├── 1779617461701-pic_242.jpg
+|     ├── 1779617569521-pic_060.jpg
+|     ├── 1779617824428-pic_097.jpg
+|     ├── 1779618369596-pic_060.jpg
+|     ├── 1780114627627-pempek_524.jpg
+|     ├── 1780114662788-pempek_506.jpg
+|     ├── 1780114677450-pempek_144.jpg
+|     ├── 1780114692266-pempek_201.jpg
+|     ├── 1780114709848-pempek_453.jpg
+|     ├── 1780192938152-output.png
+|     ├── 1780193083894-output.png
+|     ├── 1780193493895-output.png
+|     ├── 1780195057919-pic_242.jpg
+|     ├── 1780196141382-output.png
+|     ├── 1780196171355-pic_327.jpg
+|     ├── 1780196189936-pic_475.jpg
+|     ├── 1783609666411-ayam.jpg
+|     ├── 1783609698770-sosis.jpg
+|     ├── 1783609787891-sosis.jpg
+|     ├── 1783741382098-setan.jpg
+|     ├── 1783741798936-setan.jpg
+|     ├── 1783741832939-bakso.jpg
+|     ├── 1783741895479-spesial.jpg
+|     ├── 1783742393919-logo.jpg
+|     ├── 1783742429800-logo.jpg
+|     └── 1783742450749-setan.jpg
+├── data
+|  ├── ab_testing.ipynb
+|  ├── Dataset_FitSmart.ipynb
+|  ├── FitSmart_EDA.ipynb
+|  ├── images
+|  ├── nutrition.csv
+|  ├── README.md
+|  └── train
+|     ├── alpukat
+|     |  ├── img_321.jpeg
+|     ├── apel
+|     |  ├── Image_1.jpg
+|     ├── Ayam Goreng
+|     |  ├── Ayam Goreng_001.jpg
+|     ├── bakso
+|     |  ├── pic_001.jpg
+|     ├── bayam
+|     |  ├── Image_1.jpg
+|     ├── bebek_betutu
+|     |  ├── bebek_betutu_001.jpg
+|     ├── gado_gado
+|     |  ├── pic_001.jpg
+|     ├── gudeg
+|     |  ├── gudeg_001.jpg
+|     ├── Ikan Goreng
+|     |  ├── Ikan Goreng_002.jpg
+|     ├── jeruk
+|     |  ├── Image_1.jpg
+|     ├── Mie Goreng
+|     |  ├── Mie Goreng_001.jpg
+|     ├── nasi_goreng
+|     |  ├── nasi_goreng_004.jpg
+|     ├── pempek
+|     |  ├── pempek_001.jpg
+|     ├── pisang
+|     |  ├── Image_1.jpg
+|     ├── rawon
+|     |  ├── rawon_001.jpg
+|     ├── rendang
+|     |  ├── pic_001.jpg
+|     ├── sate
+|     |  ├── pic_001.jpg
+|     ├── soto
+|     |  ├── soto_001.jpg
+|     ├── tomat
+|     |  ├── Image_1.jpg
+|     ├── ubi
+|     |  ├── Image_10.jpg
+|     └── wortel
+|        ├── Image_1.jpg
+├── DEPLOY_FIX_NOTES.md
+├── docker
+|  └── README.md
+├── docs
+|  └── README.md
+├── ERD.png
+├── frontend
+|  ├── eslint.config.js
+|  ├── index.html
+|  ├── package-lock.json
+|  ├── package.json
+|  ├── README.md
+|  ├── src
+|  |  ├── App.jsx
+|  |  ├── assets
+|  |  |  ├── hero-fitsmart.jpg
+|  |  |  ├── hero.png
+|  |  |  ├── react.svg
+|  |  |  └── vite.svg
+|  |  ├── components
+|  |  |  ├── CallToAction.jsx
+|  |  |  ├── Dashboard
+|  |  |  ├── Features.jsx
+|  |  |  ├── Footer.jsx
+|  |  |  ├── Header.tsx
+|  |  |  ├── Hero.jsx
+|  |  |  ├── HowItWorks.jsx
+|  |  |  ├── ProtectedRoute.jsx
+|  |  |  └── Team.jsx
+|  |  ├── context
+|  |  |  └── AuthContext.jsx
+|  |  ├── data
+|  |  |  ├── constants.jsx
+|  |  |  └── dashboardData.jsx
+|  |  ├── lib
+|  |  |  ├── api.js
+|  |  |  └── mappers.js
+|  |  ├── main.jsx
+|  |  ├── pages
+|  |  |  ├── Dashboard.jsx
+|  |  |  ├── LandingPage.jsx
+|  |  |  ├── Login.jsx
+|  |  |  └── onboarding.jsx
+|  |  └── style.css
+|  └── vite.config.js
+├── INTEGRATION_NOTES.md
+├── PRISMA_FIX_NOTES.md
+├── README.md
+├── streamlit
+|  ├── app.py
+|  ├── data_loader.py
+|  ├── forecasting.py
+|  ├── readme.md
+|  └── __pycache__
+|     ├── app.cpython-310.pyc
+|     ├── app.cpython-313.pyc
+|     ├── data_loader.cpython-310.pyc
+|     ├── data_loader.cpython-313.pyc
+|     ├── forecasting.cpython-310.pyc
+|     └── forecasting.cpython-313.pyc
+└── struktur_project.txt
+
+directory: 873 file: 6095
+
+ignored: directory (78)

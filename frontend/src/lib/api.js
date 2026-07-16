@@ -54,4 +54,9 @@ getAiPlanRecommendation() {
   getWorkoutRecommendations: () => request('/recommendations/workouts'),
   generateWorkoutRecommendation: (date) => request('/recommendations/workouts/generate', json('POST', { date })),
   uploadPhoto: (formData) => request('/photos', { method: 'POST', body: formData }),
+  getSleepWeekly: () => request('/progress/sleep-weekly'),
+  resetAiPlan: () => request('/ai/plan-recommendation', { method: 'DELETE' }),
+  syncWearable: () => request('/progress/sync-wearable', { method: 'POST' }),
+  resetDailySummary: () => request('/ai/daily-summary', { method: 'DELETE' }),
+  weightForecast: (data) => request('/progress/weight-forecast', json('POST', data)),
 };

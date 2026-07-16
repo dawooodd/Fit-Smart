@@ -40,6 +40,9 @@ Dashboard ini dirancang dengan prinsip **Data Storytelling**, di mana setiap vis
 
 > Jika port default sudah digunakan, Streamlit akan menampilkan alamat alternatif di terminal.
 
+> Buka url berikut versi online
+  https://fitttsmart.streamlit.app/
+
 ---
 
 ## �📂 Struktur Folder

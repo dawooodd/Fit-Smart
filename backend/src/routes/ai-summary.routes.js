@@ -210,7 +210,7 @@ Gaya: personal, hangat, berbasis data. Maksimal 120 kata. Gunakan emoji secukupn
 
     // Last-resort graceful fallback — never crash the dashboard
     const fallback = 'Selamat datang kembali! 🌿 Tetap semangat menjalani hari ini. Ingat: konsistensi kecil setiap hari adalah kunci menuju tujuan kesehatanmu. Minum air cukup, gerak aktif, dan istirahat berkualitas!';
-    return res.json({ summary: fallback, cached: false, mode: 'fallback', error: error.message });
+    return res.json({ summary: fallback, cached: false, mode: 'fallback' });
   }
 });
 

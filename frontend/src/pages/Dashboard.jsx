@@ -12,6 +12,7 @@ import ViewMetrikTubuh from '../components/Dashboard/views/ViewMetrikTubuh';
 import ViewPlaceholder from '../components/Dashboard/views/ViewPlaceholder';
 import ViewTarget from '../components/Dashboard/views/ViewTarget';
 import ViewPhotoAI from '../components/Dashboard/views/ViewPhotoAI';
+import MinFitChatbot from '../components/Dashboard/MinFitChatbot';
 
 export default function Dashboard() {
   const { user, isDemo } = useAuth();
@@ -132,6 +133,9 @@ export default function Dashboard() {
           <div className="h-12"></div>
         </div>
       </main>
+
+      {/* MinFit floating chatbot — persists across all dashboard views */}
+      <MinFitChatbot />
     </div>
   );
 }

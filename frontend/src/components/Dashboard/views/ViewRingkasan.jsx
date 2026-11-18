@@ -26,7 +26,7 @@ function WearableStat({ icon: Icon, label, value, colour }) {
 
 // ── Stat card ─────────────────────────────────────────────────────────────────
 
-function StatCard({ icon, colour, title, label, sub, subColour }) {
+function StatCard({ icon, colour, title, label, sub, subColour, delay = 0 }) {
   const bg = {
     green: 'bg-green-100 dark:bg-green-900/30 text-green-600',
     blue:  'bg-blue-100  dark:bg-blue-900/30  text-blue-600',
@@ -34,8 +34,8 @@ function StatCard({ icon, colour, title, label, sub, subColour }) {
     cyan:  'bg-cyan-100  dark:bg-cyan-900/30  text-cyan-600',
   };
   return (
-    <div className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle) shadow-sm flex flex-col justify-between h-36">
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${bg[colour]}`}>{icon}</div>
+    <div style={{ animationDelay: `${delay}ms` }} className="group lift animate-fadeUp bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle) shadow-sm flex flex-col justify-between h-36">
+      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6 ${bg[colour]}`}>{icon}</div>
       <div>
         <h3 className="text-2xl font-bold text-(--text-main)">{title}</h3>
         <p className="text-xs font-semibold text-(--text-muted) uppercase tracking-wide mt-1">{label}</p>
@@ -127,24 +127,24 @@ export default function ViewRingkasan({ data }) {
 
       {/* ── STAT CARDS ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={<Flame size={20} />} colour="green"
+        <StatCard delay={0} icon={<Flame size={20} />} colour="green"
           title={formatNumber(netCalories, '0')} label="Kalori Bersih Hari Ini"
           sub={`Target ${formatNumber(dailyTarget)} • Sisa ${formatNumber(remaining, '0')}`}
           subColour="text-green-600" />
-        <StatCard icon={<Footprints size={20} />} colour="blue"
+        <StatCard delay={80} icon={<Footprints size={20} />} colour="blue"
           title={formatNumber(totalWorkoutMinutes, '0')} label="Menit Latihan"
           sub={`Kalori terbakar ${formatNumber(totalCaloriesBurned, '0')}`}
           subColour="text-blue-600" />
-        <StatCard icon={<Heart size={20} />} colour="red"
+        <StatCard delay={160} icon={<Heart size={20} />} colour="red"
           title={formatNumber(profile?.bmr)} label="BMR"
           sub="Dihitung otomatis dari profil" subColour="text-red-600" />
-        <StatCard icon={<Plus size={20} />} colour="cyan"
+        <StatCard delay={240} icon={<Plus size={20} />} colour="cyan"
           title={waterLiter.toLocaleString('id-ID')} label="Liter Air"
           sub="Input backend: waterIntake ml" subColour="text-cyan-600" />
       </div>
 
       {/* ── WEARABLE SYNC CARD ── */}
-      <div className="bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 shadow-sm">
+      <div className="lift animate-fadeUp [animation-delay:320ms] bg-(--bg-card) rounded-3xl border border-(--border-subtle) p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-violet-100 dark:bg-violet-900/30 text-violet-600 flex items-center justify-center">
@@ -158,7 +158,7 @@ export default function ViewRingkasan({ data }) {
           <button
             onClick={handleSyncWearable}
             disabled={syncLoading}
-            className="bg-violet-600 hover:bg-violet-700 disabled:bg-slate-400 text-white rounded-2xl px-5 py-3 font-bold transition inline-flex items-center gap-2"
+            className="press bg-violet-600 hover:bg-violet-700 disabled:bg-slate-400 text-white rounded-2xl px-5 py-3 font-bold inline-flex items-center gap-2"
           >
             {syncLoading
               ? <><Loader2 size={16} className="animate-spin" /> Menyinkronkan...</>

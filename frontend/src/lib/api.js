@@ -7,19 +7,44 @@ export function getStoredUser() { try { return JSON.parse(localStorage.getItem(U
 export function saveSession({ token, user }) { if (token) localStorage.setItem(TOKEN_KEY, token); if (user) localStorage.setItem(USER_KEY, JSON.stringify(user)); }
 export function clearSession() { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); }
 
+export const DEMO_TOKEN = 'demo_mode_token';
+export const UNAUTHORIZED_EVENT = 'fitsmart:unauthorized';
+
+// Endpoint yang 401-nya berarti "kredensial salah", bukan "sesi habis".
+const PUBLIC_AUTH_PATHS = ['/auth/login', '/auth/register'];
+
 async function request(path, options = {}) {
   const token = getToken();
   const isFormData = options.body instanceof FormData;
   const headers = { ...(options.headers || {}) };
   if (!isFormData) headers['Content-Type'] = 'application/json';
   if (token) headers.Authorization = `Bearer ${token}`;
-  const response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers, body: isFormData ? options.body : options.body });
+
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers, body: options.body });
+  } catch {
+    throw new Error('Tidak dapat terhubung ke server. Periksa koneksi internetmu lalu coba lagi.');
+  }
+
   const text = await response.text();
   let payload = text;
   try { payload = text ? JSON.parse(text) : {}; } catch { payload = text; }
-  if (!response.ok) throw new Error(payload?.message || payload?.error || 'Terjadi kesalahan pada server.');
+
+  if (!response.ok) {
+    // Sesi kedaluwarsa/token tidak valid -> keluarkan pengguna (kecuali mode demo & form login).
+    if (response.status === 401 && token && token !== DEMO_TOKEN && !PUBLIC_AUTH_PATHS.includes(path)) {
+      clearSession();
+      window.dispatchEvent(new Event(UNAUTHORIZED_EVENT));
+    }
+    if (response.status === 429 && !(payload?.error || payload?.message)) {
+      throw new Error('Terlalu banyak permintaan. Mohon tunggu sebentar lalu coba lagi.');
+    }
+    throw new Error(payload?.message || payload?.error || 'Terjadi kesalahan pada server.');
+  }
   return payload;
 }
+
 const json = (method, data) => ({ method, body: JSON.stringify(data) });
 
 export const api = {

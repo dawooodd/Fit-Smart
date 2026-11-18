@@ -17,6 +17,15 @@ const photoRoutes = require('./routes/photo.routes');
 const aiPlanRoutes = require('./routes/ai-plan.routes');
 
 const app = express();
+
+// Di balik reverse proxy (Render/Railway/Nginx) IP klien ada di X-Forwarded-For.
+// Tanpa ini rate limiter menganggap semua pengguna berasal dari satu IP.
+// Atur TRUST_PROXY=0 untuk mematikan, atau angka jumlah proxy.
+if (process.env.TRUST_PROXY !== undefined) {
+  app.set('trust proxy', Number(process.env.TRUST_PROXY) || false);
+} else if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 const uploadDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
@@ -40,14 +49,9 @@ app.use(cors({
 }));
 
 // ── Rate Limiters ─────────────────────────────────────────────────────────────
-// Strict limiter for auth routes — prevents brute-force attacks
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: 'Too many requests, please try again after 15 minutes.' },
-});
+// Limiter khusus login/register ada di middlewares/rateLimiters.js dan dipasang
+// per-route di auth.routes.js (sebelumnya satu limiter 5 req/15 menit untuk
+// SELURUH /api/auth, termasuk /me, sehingga pengguna sah mudah terkunci).
 
 // General limiter for all other API routes
 const generalLimiter = rateLimit({
@@ -62,7 +66,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadDir));
 
-app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/profile', generalLimiter, profileRoutes);
 app.use('/api/progress', generalLimiter, progressRoutes);
 app.use('/api/foods', generalLimiter, foodRoutes);

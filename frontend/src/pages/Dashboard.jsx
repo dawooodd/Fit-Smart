@@ -128,7 +128,7 @@ export default function Dashboard() {
 
         <div className="flex-1 overflow-y-auto p-4 md:p-8 relative bg-(--bg-main)">
           <div className="max-w-6xl mx-auto">
-            {renderContent()}
+            <div key={activeMenu} className="animate-fadeUp">{renderContent()}</div>
           </div>
           <div className="h-12"></div>
         </div>

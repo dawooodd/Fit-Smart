@@ -12,7 +12,7 @@ export default function Sidebar({ activeMenu, setActiveMenu, isOpen, setIsOpen }
       {/* Bagian Logo & Tombol Close */}
       <div className="h-20 flex items-center justify-between px-8 border-b border-(--border-subtle) shrink-0 transition-colors">
         <div className="flex items-center gap-2 text-2xl font-bold text-(--icon-text) tracking-tight">
-          <Heart className="fill-(--icon-text) text-(--icon-text)" size={28} /> FitSmart
+          <Heart className="fill-(--icon-text) text-(--icon-text) animate-pulseRing rounded-full" size={28} /> FitSmart
         </div>
         {/* Tombol Tutup (X) - Hanya muncul di Mobile */}
         <button 
@@ -33,13 +33,13 @@ export default function Sidebar({ activeMenu, setActiveMenu, isOpen, setIsOpen }
               <li key={item.id}>
                 <button 
                   onClick={() => setActiveMenu(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+                  className={`group w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 active:scale-[0.98] ${
                     activeMenu === item.id 
                       ? 'bg-green-700 text-white shadow-md shadow-green-700/20' 
-                      : 'text-(--text-muted) hover:bg-(--border-subtle) hover:text-(--text-main)'
+                      : 'text-(--text-muted) hover:bg-(--border-subtle) hover:text-(--text-main) hover:translate-x-1'
                   }`}
                 >
-                  {item.icon} <span className="font-medium text-sm">{item.label}</span>
+                  <span className="transition-transform duration-200 group-hover:scale-110">{item.icon}</span> <span className="font-medium text-sm">{item.label}</span>
                 </button>
               </li>
             ))}
@@ -54,13 +54,13 @@ export default function Sidebar({ activeMenu, setActiveMenu, isOpen, setIsOpen }
               <li key={item.id}>
                 <button 
                   onClick={() => setActiveMenu(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+                  className={`group w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 active:scale-[0.98] ${
                     activeMenu === item.id 
                       ? 'bg-green-700 text-white shadow-md shadow-green-700/20' 
-                      : 'text-(--text-muted) hover:bg-(--border-subtle) hover:text-(--text-main)'
+                      : 'text-(--text-muted) hover:bg-(--border-subtle) hover:text-(--text-main) hover:translate-x-1'
                   }`}
                 >
-                  {item.icon} <span className="font-medium text-sm">{item.label}</span>
+                  <span className="transition-transform duration-200 group-hover:scale-110">{item.icon}</span> <span className="font-medium text-sm">{item.label}</span>
                 </button>
               </li>
             ))}

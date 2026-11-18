@@ -6,21 +6,20 @@ exports.register = async (req, res) => {
     const data = registerSchema.parse(req.body);
     const user = await authService.register(data);
 
-    res.json({
+    res.status(201).json({
       message: "Register success",
       user,
     });
   } catch (err) {
-    // Duplicate email — safe to surface, but with a controlled message
     if (err.message === 'Email already exists') {
-      return res.status(409).json({ error: 'Email already in use.' });
+      return res.status(409).json({ error: 'Email sudah terdaftar. Silakan masuk.' });
     }
-    // Zod validation errors are user-facing and safe to forward
+    // Pesan validasi Zod aman diteruskan (zod v4 memakai `issues`).
     if (err.name === 'ZodError') {
-      return res.status(400).json({ error: err.errors?.[0]?.message || 'Invalid input.' });
+      return res.status(400).json({ error: err.issues?.[0]?.message || 'Data tidak valid.' });
     }
-    // Catch-all: never leak internal details
-    return res.status(500).json({ error: 'Registration failed. Please try again.' });
+    console.error('[auth.register]', err.message);
+    return res.status(500).json({ error: 'Pendaftaran gagal. Silakan coba lagi.' });
   }
 };
 
@@ -34,12 +33,15 @@ exports.login = async (req, res) => {
       ...result,
     });
   } catch (err) {
-    // Zod validation errors — safe to forward (format input hints, not internals)
     if (err.name === 'ZodError') {
-      return res.status(400).json({ error: 'Invalid input.' });
+      return res.status(400).json({ error: 'Email atau password tidak valid.' });
     }
-    // Auth failures ('Invalid credentials') and any other error — always generic
-    return res.status(401).json({ error: 'Invalid credentials.' });
+    if (err.message === 'JWT_SECRET is not configured') {
+      console.error('[auth.login] JWT_SECRET belum diset di environment.');
+      return res.status(500).json({ error: 'Server belum dikonfigurasi dengan benar.' });
+    }
+    // Pesan generik agar tidak membocorkan apakah email terdaftar.
+    return res.status(401).json({ error: 'Email atau password salah.' });
   }
 };
 

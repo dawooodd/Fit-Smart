@@ -1,8 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { api, clearSession, getStoredUser, getToken, saveSession } from '../lib/api';
-
-const DEMO_TOKEN = 'demo_mode_token';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { api, clearSession, getStoredUser, getToken, saveSession, DEMO_TOKEN, UNAUTHORIZED_EVENT } from '../lib/api';
 
 const AuthContext = createContext(null);
 
@@ -10,6 +8,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => getToken());
   const [user, setUser] = useState(() => getStoredUser());
   const [isBootstrapping, setIsBootstrapping] = useState(Boolean(getToken()));
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -48,15 +47,27 @@ export function AuthProvider({ children }) {
     };
   }, [token]);
 
-  const login = async (credentials) => {
+  // Token kedaluwarsa/dicabut di tengah sesi -> arahkan ke halaman login.
+  useEffect(() => {
+    const onUnauthorized = () => {
+      setToken(null);
+      setUser(null);
+      setSessionExpired(true);
+    };
+    window.addEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
+    return () => window.removeEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
+  }, []);
+
+  const login = useCallback(async (credentials) => {
     const result = await api.login(credentials);
     saveSession({ token: result.token, user: result.user });
+    setSessionExpired(false);
     setToken(result.token);
     setUser(result.user);
     return result;
-  };
+  }, []);
 
-  const loginAsDemo = () => {
+  const loginAsDemo = useCallback(() => {
     const demoUser = {
       _id: 'demo_user',
       name: 'Pengguna Demo',
@@ -64,15 +75,17 @@ export function AuthProvider({ children }) {
       isDemo: true,
     };
     saveSession({ token: DEMO_TOKEN, user: demoUser });
+    setSessionExpired(false);
     setToken(DEMO_TOKEN);
     setUser(demoUser);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     clearSession();
+    setSessionExpired(false);
     setToken(null);
     setUser(null);
-  };
+  }, []);
 
   const isDemo = Boolean(user?.isDemo);
 
@@ -82,11 +95,12 @@ export function AuthProvider({ children }) {
     isAuthenticated: Boolean(token),
     isBootstrapping,
     isDemo,
+    sessionExpired,
     login,
     loginAsDemo,
     logout,
     setUser,
-  }), [token, user, isBootstrapping, isDemo]);
+  }), [token, user, isBootstrapping, isDemo, sessionExpired, login, loginAsDemo, logout]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

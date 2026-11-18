@@ -28,13 +28,4 @@ const stepsData = [
   { id: '03', title: 'Terima rekomendasi', desc: 'Rencana makan dan jadwal latihan siap untuk kamu jalankan setiap hari.' },
 ];
 
-const teamData = [
-  { id: 1, name: 'Donny Robiantono', role: 'Full-Stack Developer' },
-  { id: 2, name: 'Muhammad Nasich', role: 'Data Scientist' },
-  { id: 3, name: 'Muhammad Rafif Hadziq', role: 'AI Engineer' },
-  { id: 4, name: 'Arrosyid Al Ayubi', role: 'Full-Stack Developer' },
-  { id: 5, name: 'M. Geralldo Agatha S.', role: 'Data Scientist' },
-  { id: 6, name: 'Revita Nur Fatimah B.', role: 'AI Engineer' },
-];
-
-export { featuresData, stepsData, teamData };
+export { featuresData, stepsData };

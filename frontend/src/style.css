@@ -1,5 +1,100 @@
 @import "tailwindcss";
 
+/* Varian `dark:` mengikuti tombol tema (data-theme), bukan setelan OS,
+   supaya konsisten dengan variabel warna di bawah. */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* --- ANIMASI --- */
+@theme {
+  --animate-fadeIn: fadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fadeUp: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-popIn: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-slideInLeft: slideInLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-floatSlow: float 9s ease-in-out infinite;
+  --animate-blob: blob 14s ease-in-out infinite;
+  --animate-gradientShift: gradientShift 10s ease infinite;
+  --animate-shake: shake 0.4s ease-in-out;
+  --animate-pulseRing: pulseRing 2.4s ease-out infinite;
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.92) translateY(6px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(30px, -24px) scale(1.08); }
+    66%      { transform: translate(-22px, 18px) scale(0.94); }
+  }
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+  @keyframes pulseRing {
+    0%   { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45); }
+    70%  { box-shadow: 0 0 0 14px rgba(22, 163, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+  }
+}
+
+html { scroll-behavior: smooth; }
+
+/* Reveal saat di-scroll (dipakai komponen <Reveal />) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Kartu interaktif: terangkat saat hover */
+.lift {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.lift:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -18px rgba(21, 128, 61, 0.35); }
+
+/* Tombol: umpan balik tekan */
+.press { transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; }
+.press:hover { transform: translateY(-2px); }
+.press:active { transform: translateY(0) scale(0.97); }
+
+/* Scrollbar halus untuk sidebar/konten */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border-main); border-radius: 999px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Hormati pengguna yang memilih mengurangi gerakan */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
 /* --- TEMA TERANG (DEFAULT) --- */
 :root {
   --bg-main: #FDFBF6;       /* Latar belakang utama (krem) */
